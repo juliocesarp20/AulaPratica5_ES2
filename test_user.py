@@ -38,10 +38,9 @@ def test_delete_user(users_instance):
 def test_edit_username(users_instance):
     users_instance.create_user("Joao Silva", "senha123",
                                "joao.silva@example.com", "1985-05-10")
-    users_instance.edit_user(1, new_username="Joao Silva2",
-                             new_email="joao.silva2@example.com")
+    users_instance.edit_user(1, new_username="Joao Silveira Silvio")
     user = users_instance.users_list[0]
-    assert user['email'] == "joao.silva2@example.com"
+    assert user['username'] == "Joao Silveira Silvio"
 
 
 def test_edit_user_no_changes(users_instance):
