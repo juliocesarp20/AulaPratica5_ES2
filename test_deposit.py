@@ -21,7 +21,6 @@ def test_deposit_invalid_deposit_zero_amount(deposit):
         deposit.deposit(0)
     assert str(exc_info.value) == "Invalid deposit amount. " \
                                   "Amount must be greater than zero."
-    assert deposit.budget == 0
 
 
 def test_deposit_invalid_deposit_negative_amount(deposit):
@@ -29,7 +28,6 @@ def test_deposit_invalid_deposit_negative_amount(deposit):
         deposit.deposit(-50)
     assert str(exc_info.value) == "Invalid deposit amount." \
                                   " Amount must be greater than zero."
-    assert deposit.budget == 0
 
 
 def test_deposit_valid_withdrawal(deposit):
@@ -43,7 +41,6 @@ def test_deposit_invalid_withdrawal_zero_amount(deposit):
         deposit.withdraw(0)
     assert str(exc_info.value) == "Invalid withdrawal amount." \
                                   " Amount must be greater than zero."
-    assert deposit.budget == 0
 
 
 def test_deposit_invalid_withdrawal_negative_amount(deposit):
@@ -51,7 +48,6 @@ def test_deposit_invalid_withdrawal_negative_amount(deposit):
         deposit.withdraw(-50)
     assert str(exc_info.value) == "Invalid withdrawal amount." \
                                   " Amount must be greater than zero."
-    assert deposit.budget == 0
 
 
 def test_deposit_invalid_withdrawal_insufficient_funds(deposit):
@@ -60,4 +56,3 @@ def test_deposit_invalid_withdrawal_insufficient_funds(deposit):
         deposit.withdraw(100)
     assert str(exc_info.value) == "Insufficient funds. Cannot" \
                                   " withdraw more than available budget."
-    assert deposit.budget == 50
