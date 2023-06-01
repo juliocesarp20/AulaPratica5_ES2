@@ -1,7 +1,7 @@
 from users import Users
 
 if __name__ == "__main__":
-    print("Hello, this is a user management system")
+    print("Hello, this is a user account and balance management system")
     user = Users()
     user.create_user("joe","2014","2013@email.com","2014-03-10")
     user.edit_user(1,"new joe")

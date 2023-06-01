@@ -1,6 +1,8 @@
 import datetime
 import re
 
+from deposit import Deposit
+
 
 class UserNotFoundException(Exception):
     pass
@@ -45,7 +47,8 @@ class Users(object):
             'username': username,
             'password': password,
             'email': email,
-            'birth_date': birth_date
+            'birth_date': birth_date,
+            'deposit': Deposit()
         }
         self.users_list.append(user)
 
@@ -74,3 +77,9 @@ class Users(object):
                     user['birth_date'] = new_birth_date
                 return
         raise UserNotFoundException(f"User with id number {user_id} not found")
+
+    def deposit_funds(self, amount):
+        self.deposit.deposit(amount)
+
+    def withdraw_funds(self, amount):
+        self.deposit.withdraw(amount)
