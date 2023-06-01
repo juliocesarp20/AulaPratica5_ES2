@@ -1,10 +1,11 @@
 import pytest
-from users import Users, UserNotFoundException, MailInvalidException, AgeInvalidException
+from users import Users, UserNotFoundException, \
+    MailInvalidException, AgeInvalidException
 
 
 @pytest.fixture
 def users_instance():
-    return Users([])
+    return Users()
 
 
 def test_create_user(users_instance):
@@ -15,13 +16,15 @@ def test_create_user(users_instance):
 
 def test_create_user_invalid_email(users_instance):
     with pytest.raises(MailInvalidException) as exc_info:
-        users_instance.create_user("john_doe", "password123", "invalid_email", "1990-01-01")
+        users_instance.create_user("john_doe", "password123",
+                                   "invalid_email", "1990-01-01")
     assert str(exc_info.value) == "Invalid email format"
 
 
 def test_create_user_age_requirement_not_met(users_instance):
     with pytest.raises(AgeInvalidException) as exc_info:
-        users_instance.create_user("john_doe", "password123", "john.doe@example.com", "2023-01-01")
+        users_instance.create_user("john_doe", "password123",
+                                   "john.doe@example.com", "2023-01-01")
     assert str(exc_info.value) == "Age requirement of 18 years old not met"
 
 
@@ -58,14 +61,16 @@ def test_edit_user_not_found(users_instance):
 
 
 def test_edit_user_invalid_email(users_instance):
-    users_instance.create_user("John Doe", "password123", "john.doe@example.com", "1990-01-01")
+    users_instance.create_user("John Doe", "password123", "john.doe@example.com",
+                               "1990-01-01")
     with pytest.raises(MailInvalidException) as exc_info:
         users_instance.edit_user(1, new_email="invalid_email")
     assert str(exc_info.value) == "Invalid email format"
 
 
 def test_edit_user_invalid_birth_date(users_instance):
-    users_instance.create_user("John Doe", "password123", "john.doe@example.com", "1990-01-01")
+    users_instance.create_user("John Doe", "password123", "john.doe@example.com",
+                               "1990-01-01")
     with pytest.raises(AgeInvalidException) as exc_info:
         users_instance.edit_user(1, new_birth_date="2015-02-10")
     assert str(exc_info.value) == "Age requirement of 18 years old not met"

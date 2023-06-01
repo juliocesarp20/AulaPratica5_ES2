@@ -15,14 +15,13 @@ class AgeInvalidException(Exception):
 
 
 class Users(object):
-    def __init__(self, users_list=[]):
-        self.users_list = users_list
+    def __init__(self, users_list=None):
+        self.users_list = users_list if users_list is not None else []
         self.current_id = 0
 
     def generate_id(self):
         self.current_id += 1
         return self.current_id
-
 
     def is_adult(self, birth_date):
         today = datetime.date.today()
@@ -30,7 +29,6 @@ class Users(object):
         age = today.year - birth_date.year - (
                 (today.month, today.day) < (birth_date.month, birth_date.day))
         return age >= 18
-
 
     def is_valid_email(self, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -71,7 +69,8 @@ class Users(object):
                     user['email'] = new_email
                 if new_birth_date:
                     if not self.is_adult(new_birth_date):
-                        raise AgeInvalidException("Age requirement of 18 years old not met")
+                        raise AgeInvalidException("Age requirement of 18"
+                                                  " years old not met")
                     user['birth_date'] = new_birth_date
                 return
         raise UserNotFoundException(f"User with id number {user_id} not found")
