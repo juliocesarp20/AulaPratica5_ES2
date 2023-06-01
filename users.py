@@ -78,8 +78,18 @@ class Users(object):
                 return
         raise UserNotFoundException(f"User with id number {user_id} not found")
 
-    def deposit_funds(self, amount):
-        self.deposit.deposit(amount)
+    def deposit_funds(self, user_id, amount):
+        for user in self.users_list:
+            if user['id'] == user_id:
+                user['deposit'].deposit(amount)
+                break
+        else:
+            raise UserNotFoundException(f"User with ID {user_id} not found")
 
-    def withdraw_funds(self, amount):
-        self.deposit.withdraw(amount)
+    def withdraw_funds(self, user_id, amount):
+        for user in self.users_list:
+            if user['id'] == user_id:
+                user['deposit'].withdraw_funds(amount)
+                break
+        else:
+            raise UserNotFoundException(f"User with ID {user_id} not found")
