@@ -27,7 +27,8 @@ class Users(object):
                 self.users_list.remove(user)
                 return
 
-    def edit_user(self, user_id, new_username=None, new_password=None, new_email=None, new_birth_date=None):
+    def edit_user(self, user_id, new_username=None, new_password=None,
+                  new_email=None, new_birth_date=None):
         for user in self.users_list:
             if user['id'] == user_id:
                 if new_username:
