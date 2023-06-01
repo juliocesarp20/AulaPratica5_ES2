@@ -1,4 +1,16 @@
+import datetime
+import re
+
+
 class UserNotFoundException(Exception):
+    pass
+
+
+class MailInvalidException(Exception):
+    pass
+
+
+class AgeInvalidException(Exception):
     pass
 
 
@@ -11,7 +23,25 @@ class Users(object):
         self.current_id += 1
         return self.current_id
 
+
+    def is_adult(self, birth_date):
+        today = datetime.date.today()
+        birth_date = datetime.datetime.strptime(birth_date, "%Y-%m-%d").date()
+        age = today.year - birth_date.year - (
+                (today.month, today.day) < (birth_date.month, birth_date.day))
+        return age >= 18
+
+
+    def is_valid_email(self, email):
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(pattern, email)
+
     def create_user(self, username, password, email, birth_date):
+        if not self.is_valid_email(email):
+            raise MailInvalidException("Invalid email format")
+        if not self.is_adult(birth_date):
+            raise AgeInvalidException("Age requirement of 18 years old not met")
+
         user = {
             'id': self.generate_id(),
             'username': username,
@@ -36,8 +66,12 @@ class Users(object):
                 if new_password:
                     user['password'] = new_password
                 if new_email:
+                    if not self.is_valid_email(new_email):
+                        raise MailInvalidException("Invalid email format")
                     user['email'] = new_email
                 if new_birth_date:
+                    if not self.is_adult(new_birth_date):
+                        raise AgeInvalidException("Age requirement of 18 years old not met")
                     user['birth_date'] = new_birth_date
                 return
         raise UserNotFoundException(f"User with id number {user_id} not found")
