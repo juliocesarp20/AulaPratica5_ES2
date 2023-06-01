@@ -39,4 +39,4 @@ class Users(object):
                 if new_birth_date:
                     user['birth_date'] = new_birth_date
                 return
-        raise UserNotFoundException(f"User with id {user_id} not found")
+        raise UserNotFoundException(f"User with id number {user_id} not found")

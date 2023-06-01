@@ -36,4 +36,4 @@ def test_edit_user_not_found(users_instance):
     users_instance.create_user("Joao Silva", "senha123", "joao.silva@example.com", "1985-05-10")
     with pytest.raises(UserNotFoundException) as exc_info:
         users_instance.edit_user(2, new_username="Joao Silveira Silvio")
-    assert str(exc_info.value) == "User with id 2 not found"
+    assert str(exc_info.value) == "User with id number 2 not found"
